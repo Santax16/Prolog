@@ -60,6 +60,19 @@ tiene(Persona, Figurita):-
 tiene(Persona, Figurita):-
     canje(_, Persona, Figurita).
 % 2    
+figuritasRepetidas(Persona, ListaFiguritasRepetidas):-
+    findall(Figurita, (
+        tiene(Persona, Figurita),
+        findall(figuritaRepetida, (
+            (paquete(Persona, _, Figuritas), member(Figurita, Figuritas));
+            canje(_, Persona, Figurita)
+        ), VecesRepetida),
+        length(VecesRepetida, Cantidad),
+        Cantidad > 1
+    ), ListaFiguritasRepetidas).
+% 3
+colecciona(Persona):-
+    tiene(Persona,_).
 tieneRepetida(Persona, Figurita):-
     tiene(Persona, Figurita),
     findall(figuritaRepetida, (
@@ -67,10 +80,7 @@ tieneRepetida(Persona, Figurita):-
         canje(_, Persona, Figurita)
     ), VecesRepetida),
     length(VecesRepetida, Cantidad),
-    Cantidad > 1.
-% 3
-colecciona(Persona):-
-    tiene(Persona,_).
+    Cantidad > 1.    
 
 esRara(Figurita):-
     not((paquete(_,Orden,Figuritas), Orden =<2, member(Figurita,Figuritas))).
@@ -84,6 +94,17 @@ esRara(Figurita):-
     length(PersonasQueLaTienen, Cantidad),
     Cantidad < Mitad,
     not(tieneRepetida(_, Figurita)).
+
+% 4 base de conocimiento
+% popularidad(nombre, nrodepopularidad)
+% rareza(nro, tipoRareza)
+% imagen(nro, [listadenombres]) o imagen(nro, nombre)
+
+
+
+
+
+
 
 
    
